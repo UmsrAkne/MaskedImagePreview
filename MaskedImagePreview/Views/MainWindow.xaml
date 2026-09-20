@@ -179,9 +179,22 @@
                 AllowDrop="True"
                 Background="LightGray"
                 MouseWheel="Border_PreviewMouseWheel">
-                <Border.OpacityMask>
-                    <ImageBrush ImageSource="{Binding MaskImageViewModel.SelectedImage.ImageSource}" Stretch="None" />
-                </Border.OpacityMask>
+                <Border.Style>
+                    <Style TargetType="Border">
+                        <!-- デフォルトは OpacityMask なし（通常通り全体が表示される） -->
+                        <Setter Property="OpacityMask" Value="{x:Null}" />
+                        <Style.Triggers>
+                            <!-- マスク画像が選択されている場合のみ OpacityMask をセット -->
+                            <DataTrigger Binding="{Binding MaskImageViewModel.SelectedImage.ImageSource, Converter={StaticResource NullToBooleanConverter}}" Value="true">
+                                <Setter Property="OpacityMask">
+                                    <Setter.Value>
+                                        <ImageBrush ImageSource="{Binding MaskImageViewModel.SelectedImage.ImageSource}" Stretch="None" />
+                                    </Setter.Value>
+                                </Setter>
+                            </DataTrigger>
+                        </Style.Triggers>
+                    </Style>
+                </Border.Style>
 
                 <Image
                     HorizontalAlignment="Center"
