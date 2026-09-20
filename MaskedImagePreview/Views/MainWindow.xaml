@@ -6,11 +6,55 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:viewModels="clr-namespace:MaskedImagePreview.ViewModels"
     Title="{Binding Title}"
-    Width="1024"
-    Height="480"
+    Width="1280"
+    Height="720"
     d:DataContext="{d:DesignInstance viewModels:MainWindowViewModel}"
+    d:DesignHeight="400"
+    d:DesignWidth="800"
     mc:Ignorable="d">
     <Grid>
-        <Button Content="Test" />
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="Auto" />
+            <ColumnDefinition />
+        </Grid.ColumnDefinitions>
+
+        <!-- トップバー -->
+        <Border
+            Grid.Row="0"
+            Grid.Column="0"
+            Grid.ColumnSpan="2"
+            Height="40"
+            Background="Aquamarine" />
+
+        <!-- サイドバー -->
+        <Border
+            Grid.Row="0"
+            Grid.RowSpan="2"
+            Grid.Column="0"
+            Width="50"
+            HorizontalAlignment="Left"
+            Background="LightSlateGray" />
+
+        <!-- メインコンテンツ（画像表示部分） -->
+        <Border
+            Grid.Row="1"
+            Grid.Column="1"
+            Background="LightGray">
+            <Image />
+        </Border>
+
+        <!-- ステータスバー -->
+        <Border
+            Grid.Row="2"
+            Grid.Column="0"
+            Grid.ColumnSpan="2"
+            Height="30"
+            Background="LightGoldenrodYellow" />
     </Grid>
 </Window>

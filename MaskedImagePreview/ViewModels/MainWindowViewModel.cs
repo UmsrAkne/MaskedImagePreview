@@ -5,7 +5,7 @@ namespace MaskedImagePreview.ViewModels
     // ReSharper disable once ClassNeverInstantiated.Global
     public class MainWindowViewModel : BindableBase
     {
-        private string title = "MaskedImagePreview";
+        private string title = "Masked Image Preview";
 
         public MainWindowViewModel()
         {
