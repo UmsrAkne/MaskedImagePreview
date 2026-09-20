@@ -43,15 +43,24 @@
             Background="LightSlateGray" />
 
         <!-- メインコンテンツ（画像表示部分） -->
-        <Border
+        <ScrollViewer
             Grid.Row="1"
             Grid.Column="1"
-            dd:DragDrop.DropHandler="{Binding}"
-            dd:DragDrop.IsDropTarget="True"
-            AllowDrop="True"
-            Background="LightGray">
-            <Image Source="{Binding ImageViewModel.ImageSource}" />
-        </Border>
+            Background="DarkSlateBlue"
+            HorizontalScrollBarVisibility="Visible">
+            <Border
+                dd:DragDrop.DropHandler="{Binding}"
+                dd:DragDrop.IsDropTarget="True"
+                AllowDrop="True"
+                Background="LightGray">
+                <Image
+                    HorizontalAlignment="Left"
+                    VerticalAlignment="Top"
+                    RenderOptions.BitmapScalingMode="NearestNeighbor"
+                    Source="{Binding ImageViewModel.ImageSource}"
+                    Stretch="None" />
+            </Border>
+        </ScrollViewer>
 
         <!-- ステータスバー -->
         <Border
