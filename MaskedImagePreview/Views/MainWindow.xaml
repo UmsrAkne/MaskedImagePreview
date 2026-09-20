@@ -50,7 +50,7 @@
             dd:DragDrop.IsDropTarget="True"
             AllowDrop="True"
             Background="LightGray">
-            <Image />
+            <Image Source="{Binding ImageViewModel.ImageSource}" />
         </Border>
 
         <!-- ステータスバー -->

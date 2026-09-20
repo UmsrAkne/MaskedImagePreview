@@ -8,6 +8,7 @@ namespace MaskedImagePreview.ViewModels
     public class MainWindowViewModel : BindableBase, IDropTarget
     {
         private string title = "Masked Image Preview";
+        private ImageViewModel imageViewModel = new (string.Empty);
 
         public MainWindowViewModel()
         {
@@ -15,6 +16,12 @@ namespace MaskedImagePreview.ViewModels
         }
 
         public string Title { get => title; set => SetProperty(ref title, value); }
+
+        public ImageViewModel ImageViewModel
+        {
+            get => imageViewModel;
+            set => SetProperty(ref imageViewModel, value);
+        }
 
         public void DragOver(IDropInfo dropInfo)
         {
@@ -34,7 +41,13 @@ namespace MaskedImagePreview.ViewModels
 
                 AppLogger.Info($"Dropped file: {filePath}");
 
-                // 画像の読み込み処理...
+                if (string.IsNullOrEmpty(filePath))
+                {
+                    return;
+                }
+
+                // 画像の読み込み処理
+                ImageViewModel.LoadImage(filePath);
             }
         }
     }
