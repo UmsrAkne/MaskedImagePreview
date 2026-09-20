@@ -15,6 +15,12 @@ namespace MaskedImagePreview.ViewModels
             AppLogger.Info("MainWindowViewModel created");
         }
 
+        public MainWindowViewModel(AppSettings appSettings)
+        {
+            ImageViewModel.LoadImage(appSettings.DebugImagePath);
+            AppLogger.Info($"Image loaded from {appSettings.DebugImagePath}");
+        }
+
         public string Title { get => title; set => SetProperty(ref title, value); }
 
         public ImageViewModel ImageViewModel
