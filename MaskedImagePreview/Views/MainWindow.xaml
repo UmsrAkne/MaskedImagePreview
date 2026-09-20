@@ -13,6 +13,66 @@
     d:DesignHeight="400"
     d:DesignWidth="800"
     mc:Ignorable="d">
+
+    <Window.Resources>
+        <Style x:Key="DropZoneListBoxStyle" TargetType="ListBox">
+            <Setter Property="Background" Value="White" />
+            <Setter Property="BorderThickness" Value="1" />
+            <Setter Property="BorderBrush" Value="#DDD" />
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="ListBox">
+                        <Border
+                            Background="{TemplateBinding Background}"
+                            BorderBrush="{TemplateBinding BorderBrush}"
+                            BorderThickness="{TemplateBinding BorderThickness}">
+                            <Grid>
+                                <!-- リスト本体 -->
+                                <ScrollViewer Padding="{TemplateBinding Padding}" Focusable="false">
+                                    <ItemsPresenter />
+                                </ScrollViewer>
+
+                                <!-- 空状態のプレースホルダー -->
+                                <Border
+                                    x:Name="EmptyPrompt"
+                                    Margin="6"
+                                    Background="#FAFAFA"
+                                    BorderBrush="#AAA"
+                                    BorderThickness="2"
+                                    CornerRadius="4"
+                                    IsHitTestVisible="False"
+                                    Visibility="Collapsed">
+                                    <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
+                                        <TextBlock
+                                            Margin="4"
+                                            HorizontalAlignment="Center"
+                                            FontSize="12"
+                                            FontWeight="Bold"
+                                            Foreground="#888"
+                                            Text="{Binding Tag, RelativeSource={RelativeSource TemplatedParent}}"
+                                            TextAlignment="Center"
+                                            TextWrapping="Wrap" />
+                                        <TextBlock
+                                            Margin="0,4,0,0"
+                                            HorizontalAlignment="Center"
+                                            FontSize="11"
+                                            Foreground="#AAA"
+                                            Text="📁 ドロップして追加" />
+                                    </StackPanel>
+                                </Border>
+                            </Grid>
+                        </Border>
+                        <!-- アイテムが0件のときにプレースホルダーを表示 -->
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="HasItems" Value="False">
+                                <Setter TargetName="EmptyPrompt" Property="Visibility" Value="Visible" />
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+    </Window.Resources>
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
@@ -38,9 +98,73 @@
             Grid.Row="0"
             Grid.RowSpan="2"
             Grid.Column="0"
-            Width="50"
+            Width="300"
             HorizontalAlignment="Left"
-            Background="LightSlateGray" />
+            AllowDrop="True"
+            Background="LightSlateGray">
+
+            <UniformGrid Columns="2">
+                <GroupBox Margin="4" Header="ベース画像">
+                    <ListBox
+                        dd:DragDrop.DropHandler="{Binding BaseImageViewModel}"
+                        dd:DragDrop.IsDropTarget="True"
+                        AllowDrop="True"
+                        ItemsSource="{Binding BaseImageViewModel.ImageViewModels}"
+                        SelectedItem="{Binding BaseImageViewModel.SelectedImage}"
+                        Style="{StaticResource DropZoneListBoxStyle}"
+                        Tag="ベース画像を&#x0a;ドロップ">
+                        <ListBox.ItemTemplate>
+                            <DataTemplate>
+                                <DockPanel Margin="2">
+                                    <Image
+                                        Width="28"
+                                        Height="28"
+                                        DockPanel.Dock="Left"
+                                        Source="{Binding ImageSource}"
+                                        Stretch="Uniform" />
+                                    <TextBlock
+                                        Margin="6,0,0,0"
+                                        VerticalAlignment="Center"
+                                        Text="{Binding FileName}"
+                                        TextTrimming="CharacterEllipsis" />
+                                </DockPanel>
+                            </DataTemplate>
+                        </ListBox.ItemTemplate>
+                    </ListBox>
+                </GroupBox>
+
+                <!-- 右列：マスク画像リスト -->
+                <GroupBox Margin="4" Header="マスク画像">
+                    <ListBox
+                        dd:DragDrop.DropHandler="{Binding MaskImageViewModel}"
+                        dd:DragDrop.IsDropTarget="True"
+                        AllowDrop="True"
+                        ItemsSource="{Binding MaskImageViewModel.ImageViewModels}"
+                        SelectedItem="{Binding MaskImageViewModel.SelectedImage}"
+                        Style="{StaticResource DropZoneListBoxStyle}"
+                        Tag="マスク画像を&#x0a;ドロップ">
+                        <ListBox.ItemTemplate>
+                            <DataTemplate>
+                                <DockPanel Margin="2">
+                                    <Image
+                                        Width="28"
+                                        Height="28"
+                                        DockPanel.Dock="Left"
+                                        Source="{Binding ImageSource}"
+                                        Stretch="Uniform" />
+                                    <TextBlock
+                                        Margin="6,0,0,0"
+                                        VerticalAlignment="Center"
+                                        Text="{Binding FileName}"
+                                        TextTrimming="CharacterEllipsis" />
+                                </DockPanel>
+                            </DataTemplate>
+                        </ListBox.ItemTemplate>
+                    </ListBox>
+                </GroupBox>
+            </UniformGrid>
+
+        </Border>
 
         <!-- メインコンテンツ（画像表示部分） -->
         <ScrollViewer

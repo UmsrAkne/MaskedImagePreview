@@ -25,7 +25,7 @@ public partial class MainWindow
             vm.ImageViewModel.Scale = Math.Max(0.1, vm.ImageViewModel.Scale * zoomFactor);
 
             // var angleFactor = e.Delta > 0 ? 2 : -2;
-            // vm.ImageViewModel.Angle += angleFactor;
+            // vm.ImageViewModels.Angle += angleFactor;
             e.Handled = true; // スクロール防止
         }
     }
