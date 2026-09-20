@@ -44,10 +44,12 @@
 
         <!-- メインコンテンツ（画像表示部分） -->
         <ScrollViewer
+            x:Name="ImageScrollViewer"
             Grid.Row="1"
             Grid.Column="1"
             Background="DarkSlateBlue"
-            HorizontalScrollBarVisibility="Visible">
+            HorizontalScrollBarVisibility="Visible"
+            VerticalScrollBarVisibility="Visible">
             <Border
                 dd:DragDrop.DropHandler="{Binding}"
                 dd:DragDrop.IsDropTarget="True"
@@ -57,6 +59,10 @@
                 <Image
                     HorizontalAlignment="Center"
                     VerticalAlignment="Center"
+                    LostMouseCapture="Image_LostMouseCapture"
+                    MouseLeftButtonDown="Image_MouseLeftButtonDown"
+                    MouseLeftButtonUp="Image_MouseLeftButtonUp"
+                    MouseMove="Image_MouseMove"
                     RenderOptions.BitmapScalingMode="NearestNeighbor"
                     RenderTransformOrigin="0.5,0.5"
                     Source="{Binding ImageViewModel.ImageSource}"
