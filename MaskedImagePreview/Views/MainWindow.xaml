@@ -192,12 +192,12 @@
                     MouseMove="Image_MouseMove"
                     RenderOptions.BitmapScalingMode="NearestNeighbor"
                     RenderTransformOrigin="0.5,0.5"
-                    Source="{Binding ImageViewModel.ImageSource}"
+                    Source="{Binding BaseImageViewModel.SelectedImage.ImageSource}"
                     Stretch="None">
                     <Image.RenderTransform>
                         <TransformGroup>
-                            <ScaleTransform ScaleX="{Binding ImageViewModel.Scale}" ScaleY="{Binding ImageViewModel.Scale}" />
-                            <RotateTransform Angle="{Binding ImageViewModel.Angle}" />
+                            <ScaleTransform ScaleX="{Binding BaseImageViewModel.SelectedImage.Scale}" ScaleY="{Binding BaseImageViewModel.SelectedImage.Scale}" />
+                            <RotateTransform Angle="{Binding BaseImageViewModel.SelectedImage.Angle}" />
                         </TransformGroup>
                     </Image.RenderTransform>
                 </Image>

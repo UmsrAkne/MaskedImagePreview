@@ -22,7 +22,7 @@ public partial class MainWindow
         if (DataContext is MainWindowViewModel vm)
         {
             var zoomFactor = e.Delta > 0 ? 1.1 : 0.9;
-            vm.ImageViewModel.Scale = Math.Max(0.1, vm.ImageViewModel.Scale * zoomFactor);
+            vm.BaseImageViewModel.SelectedImage.Scale = Math.Max(0.1, vm.ImageViewModel.Scale * zoomFactor);
 
             // var angleFactor = e.Delta > 0 ? 2 : -2;
             // vm.ImageViewModels.Angle += angleFactor;

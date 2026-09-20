@@ -21,6 +21,19 @@ namespace MaskedImagePreview.ViewModels
         {
             ImageViewModel.LoadImage(appSettings.DebugImagePath);
             AppLogger.Info($"Image loaded from {appSettings.DebugImagePath}");
+
+            #if DEBUG
+
+            var vm = new ImageViewModel(appSettings.DebugImagePath);
+            BaseImageViewModel.ImageViewModels.Add(vm);
+            BaseImageViewModel.SelectedImage = vm;
+
+            var maskImage = new ImageViewModel(appSettings.DebugMaskPath);
+            AppLogger.Info($"mask image load from {appSettings.DebugMaskPath}");
+            MaskImageViewModel.ImageViewModels.Add(maskImage);
+            MaskImageViewModel.SelectedImage = maskImage;
+
+            #endif
         }
 
         public string Title { get => title; set => SetProperty(ref title, value); }
