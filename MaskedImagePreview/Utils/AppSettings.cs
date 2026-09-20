@@ -9,6 +9,8 @@ namespace MaskedImagePreview.Utils
     {
         public string DebugImagePath { get; set; } = string.Empty;
 
+        public string DebugMaskPath { get; set; } = string.Empty;
+
         public double? WindowTop { get; set; }
 
         public double? WindowLeft { get; set; }

@@ -15,9 +15,12 @@ namespace MaskedImagePreview.ViewModels
         public ImageViewModel(string path)
         {
             FullName = path;
+            LoadImage(path);
         }
 
         public string FullName { get => fullName; private set => SetProperty(ref fullName, value); }
+
+        public string FileName => Path.GetFileName(FullName);
 
         public ImageSource? ImageSource { get => imageSource; private set => SetProperty(ref imageSource, value); }
 

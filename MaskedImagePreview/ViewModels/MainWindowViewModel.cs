@@ -9,6 +9,8 @@ namespace MaskedImagePreview.ViewModels
     {
         private string title = "Masked Image Preview";
         private ImageViewModel imageViewModel = new (string.Empty);
+        private ImageListViewModel baseImageViewModel = new ();
+        private ImageListViewModel maskImageViewModel = new ();
 
         public MainWindowViewModel()
         {
@@ -19,6 +21,19 @@ namespace MaskedImagePreview.ViewModels
         {
             ImageViewModel.LoadImage(appSettings.DebugImagePath);
             AppLogger.Info($"Image loaded from {appSettings.DebugImagePath}");
+
+            #if DEBUG
+
+            var vm = new ImageViewModel(appSettings.DebugImagePath);
+            BaseImageViewModel.ImageViewModels.Add(vm);
+            BaseImageViewModel.SelectedImage = vm;
+
+            var maskImage = new ImageViewModel(appSettings.DebugMaskPath);
+            AppLogger.Info($"mask image load from {appSettings.DebugMaskPath}");
+            MaskImageViewModel.ImageViewModels.Add(maskImage);
+            MaskImageViewModel.SelectedImage = maskImage;
+
+            #endif
         }
 
         public string Title { get => title; set => SetProperty(ref title, value); }
@@ -27,6 +42,18 @@ namespace MaskedImagePreview.ViewModels
         {
             get => imageViewModel;
             set => SetProperty(ref imageViewModel, value);
+        }
+
+        public ImageListViewModel BaseImageViewModel
+        {
+            get => baseImageViewModel;
+            set => SetProperty(ref baseImageViewModel, value);
+        }
+
+        public ImageListViewModel MaskImageViewModel
+        {
+            get => maskImageViewModel;
+            set => SetProperty(ref maskImageViewModel, value);
         }
 
         public void DragOver(IDropInfo dropInfo)

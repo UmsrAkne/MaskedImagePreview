@@ -21,11 +21,17 @@ public partial class MainWindow
     {
         if (DataContext is MainWindowViewModel vm)
         {
+            var image = vm.BaseImageViewModel.SelectedImage;
+            if (image == null)
+            {
+                return;
+            }
+
             var zoomFactor = e.Delta > 0 ? 1.1 : 0.9;
-            vm.ImageViewModel.Scale = Math.Max(0.1, vm.ImageViewModel.Scale * zoomFactor);
+            image.Scale = Math.Max(0.1, image.Scale * zoomFactor);
 
             // var angleFactor = e.Delta > 0 ? 2 : -2;
-            // vm.ImageViewModel.Angle += angleFactor;
+            // vm.ImageViewModels.Angle += angleFactor;
             e.Handled = true; // スクロール防止
         }
     }
