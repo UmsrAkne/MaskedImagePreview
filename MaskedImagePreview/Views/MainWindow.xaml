@@ -52,13 +52,22 @@
                 dd:DragDrop.DropHandler="{Binding}"
                 dd:DragDrop.IsDropTarget="True"
                 AllowDrop="True"
-                Background="LightGray">
+                Background="LightGray"
+                MouseWheel="Border_PreviewMouseWheel">
                 <Image
-                    HorizontalAlignment="Left"
-                    VerticalAlignment="Top"
+                    HorizontalAlignment="Center"
+                    VerticalAlignment="Center"
                     RenderOptions.BitmapScalingMode="NearestNeighbor"
+                    RenderTransformOrigin="0.5,0.5"
                     Source="{Binding ImageViewModel.ImageSource}"
-                    Stretch="None" />
+                    Stretch="None">
+                    <Image.RenderTransform>
+                        <TransformGroup>
+                            <ScaleTransform ScaleX="{Binding ImageViewModel.Scale}" ScaleY="{Binding ImageViewModel.Scale}" />
+                            <RotateTransform Angle="{Binding ImageViewModel.Angle}" />
+                        </TransformGroup>
+                    </Image.RenderTransform>
+                </Image>
             </Border>
         </ScrollViewer>
 

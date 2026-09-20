@@ -9,6 +9,8 @@ namespace MaskedImagePreview.ViewModels
     {
         private string fullName = string.Empty;
         private ImageSource? imageSource;
+        private double scale = 1.0;
+        private double angle;
 
         public ImageViewModel(string path)
         {
@@ -18,6 +20,10 @@ namespace MaskedImagePreview.ViewModels
         public string FullName { get => fullName; private set => SetProperty(ref fullName, value); }
 
         public ImageSource? ImageSource { get => imageSource; private set => SetProperty(ref imageSource, value); }
+
+        public double Scale { get => scale; set => SetProperty(ref scale, value); }
+
+        public double Angle { get => angle; set => SetProperty(ref angle, value); }
 
         public void LoadImage(string path)
         {
