@@ -171,7 +171,6 @@
             x:Name="ImageScrollViewer"
             Grid.Row="1"
             Grid.Column="1"
-            Background="DarkSlateBlue"
             HorizontalScrollBarVisibility="Visible"
             VerticalScrollBarVisibility="Visible">
             <Border
@@ -180,6 +179,10 @@
                 AllowDrop="True"
                 Background="LightGray"
                 MouseWheel="Border_PreviewMouseWheel">
+                <Border.OpacityMask>
+                    <ImageBrush ImageSource="{Binding MaskImageViewModel.SelectedImage.ImageSource}" Stretch="None" />
+                </Border.OpacityMask>
+
                 <Image
                     HorizontalAlignment="Center"
                     VerticalAlignment="Center"
