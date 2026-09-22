@@ -28,7 +28,7 @@ namespace MaskedImagePreview.ViewModels
             BaseImageViewModel.ImageViewModels.Add(vm);
             BaseImageViewModel.SelectedImage = vm;
 
-            var maskImage = new ImageViewModel(appSettings.DebugMaskPath);
+            var maskImage = new ImageViewModel(appSettings.DebugMaskPath, "mask");
             AppLogger.Info($"mask image load from {appSettings.DebugMaskPath}");
             MaskImageViewModel.ImageViewModels.Add(maskImage);
             MaskImageViewModel.SelectedImage = maskImage;
