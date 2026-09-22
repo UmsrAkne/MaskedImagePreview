@@ -21,8 +21,6 @@ namespace MaskedImagePreview.Utils
 
         public WindowState WindowState { get; set; } = WindowState.Normal;
 
-        public DateTime? LastIssueFetchDateTime { get; set; }
-
         [JsonIgnore]
         private static string ConfigPath =>
             Path.Combine(AppContext.BaseDirectory, "app_settings.json");
