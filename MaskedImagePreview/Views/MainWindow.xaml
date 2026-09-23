@@ -167,55 +167,74 @@
         </Border>
 
         <!-- メインコンテンツ（画像表示部分） -->
-        <ScrollViewer
-            x:Name="ImageScrollViewer"
+        <Border
+            x:Name="Border"
             Grid.Row="1"
             Grid.Column="1"
-            HorizontalScrollBarVisibility="Visible"
-            VerticalScrollBarVisibility="Visible">
-            <Border
-                dd:DragDrop.DropHandler="{Binding}"
-                dd:DragDrop.IsDropTarget="True"
-                AllowDrop="True"
-                Background="LightGray"
-                MouseWheel="Border_PreviewMouseWheel">
-                <Border.Style>
-                    <Style TargetType="Border">
-                        <!-- デフォルトは OpacityMask なし（通常通り全体が表示される） -->
-                        <Setter Property="OpacityMask" Value="{x:Null}" />
-                        <Style.Triggers>
-                            <!-- マスク画像が選択されている場合のみ OpacityMask をセット -->
-                            <DataTrigger Binding="{Binding MaskImageViewModel.SelectedImage.ImageSource, Converter={StaticResource NullToBooleanConverter}}" Value="true">
-                                <Setter Property="OpacityMask">
-                                    <Setter.Value>
-                                        <ImageBrush ImageSource="{Binding MaskImageViewModel.SelectedImage.ImageSource}" Stretch="None" />
-                                    </Setter.Value>
-                                </Setter>
-                            </DataTrigger>
-                        </Style.Triggers>
-                    </Style>
-                </Border.Style>
+            Margin="10"
+            HorizontalAlignment="Left"
+            VerticalAlignment="Top"
+            dd:DragDrop.DropHandler="{Binding}"
+            dd:DragDrop.IsDropTarget="True"
+            AllowDrop="True"
+            Background="LightGray"
+            ClipToBounds="True"
+            MouseWheel="Border_PreviewMouseWheel">
+            <Border.LayoutTransform>
+                <ScaleTransform ScaleX="0.5" ScaleY="0.5" />
+            </Border.LayoutTransform>
+            <Border.Style>
+                <Style TargetType="Border">
+                    <Setter Property="OpacityMask" Value="{x:Null}" />
+                    <Style.Triggers>
+                        <DataTrigger Binding="{Binding MaskImageViewModel.SelectedImage.ImageSource, Converter={StaticResource NullToBooleanConverter}}" Value="True">
+                            <Setter Property="OpacityMask">
+                                <Setter.Value>
+                                    <!-- マスク画像を中央固定配置 -->
+                                    <ImageBrush
+                                        AlignmentX="Left"
+                                        AlignmentY="Top"
+                                        ImageSource="{Binding MaskImageViewModel.SelectedImage.ImageSource}"
+                                        Stretch="None"
+                                        ViewportUnits="Absolute">
+                                        <ImageBrush.Viewport>
+                                            <MultiBinding Converter="{StaticResource RectConverter}">
+                                                <Binding ElementName="Border" Path="ActualWidth" />
+                                                <Binding ElementName="Border" Path="ActualHeight" />
+                                            </MultiBinding>
+                                        </ImageBrush.Viewport>
+                                    </ImageBrush>
+                                </Setter.Value>
+                            </Setter>
+                        </DataTrigger>
+                    </Style.Triggers>
+                </Style>
+            </Border.Style>
 
-                <Image
-                    HorizontalAlignment="Center"
-                    VerticalAlignment="Center"
-                    LostMouseCapture="Image_LostMouseCapture"
-                    MouseLeftButtonDown="Image_MouseLeftButtonDown"
-                    MouseLeftButtonUp="Image_MouseLeftButtonUp"
-                    MouseMove="Image_MouseMove"
-                    RenderOptions.BitmapScalingMode="NearestNeighbor"
-                    RenderTransformOrigin="0.5,0.5"
-                    Source="{Binding BaseImageViewModel.SelectedImage.ImageSource}"
-                    Stretch="None">
-                    <Image.RenderTransform>
-                        <TransformGroup>
-                            <ScaleTransform ScaleX="{Binding BaseImageViewModel.SelectedImage.Scale}" ScaleY="{Binding BaseImageViewModel.SelectedImage.Scale}" />
-                            <RotateTransform Angle="{Binding BaseImageViewModel.SelectedImage.Angle}" />
-                        </TransformGroup>
-                    </Image.RenderTransform>
-                </Image>
-            </Border>
-        </ScrollViewer>
+            <!-- 2. 中の画像だけをTransformで動かす -->
+            <Image
+                HorizontalAlignment="Center"
+                VerticalAlignment="Center"
+                LostMouseCapture="Image_LostMouseCapture"
+                MouseLeftButtonDown="Image_MouseLeftButtonDown"
+                MouseLeftButtonUp="Image_MouseLeftButtonUp"
+                MouseMove="Image_MouseMove"
+                RenderOptions.BitmapScalingMode="NearestNeighbor"
+                RenderTransformOrigin="0.5,0.5"
+                Source="{Binding BaseImageViewModel.SelectedImage.ImageSource}"
+                Stretch="None">
+                <Image.RenderTransform>
+                    <TransformGroup>
+                        <!-- 拡大縮小 -->
+                        <ScaleTransform ScaleX="{Binding BaseImageViewModel.SelectedImage.Scale}" ScaleY="{Binding BaseImageViewModel.SelectedImage.Scale}" />
+                        <!-- 回転 -->
+                        <RotateTransform Angle="{Binding BaseImageViewModel.SelectedImage.Angle}" />
+                        <!-- 平行移動（ドラッグ移動用） -->
+                        <TranslateTransform X="{Binding BaseImageViewModel.SelectedImage.OffsetX}" Y="{Binding BaseImageViewModel.SelectedImage.OffsetY}" />
+                    </TransformGroup>
+                </Image.RenderTransform>
+            </Image>
+        </Border>
 
         <!-- ステータスバー -->
         <Border
