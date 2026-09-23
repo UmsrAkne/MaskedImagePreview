@@ -172,8 +172,8 @@
             Grid.Row="1"
             Grid.Column="1"
             Margin="10"
-            HorizontalAlignment="Left"
-            VerticalAlignment="Top"
+            HorizontalAlignment="Center"
+            VerticalAlignment="Center"
             dd:DragDrop.DropHandler="{Binding}"
             dd:DragDrop.IsDropTarget="True"
             AllowDrop="True"
@@ -183,57 +183,82 @@
             <Border.LayoutTransform>
                 <ScaleTransform ScaleX="0.5" ScaleY="0.5" />
             </Border.LayoutTransform>
-            <Border.Style>
-                <Style TargetType="Border">
-                    <Setter Property="OpacityMask" Value="{x:Null}" />
-                    <Style.Triggers>
-                        <DataTrigger Binding="{Binding MaskImageViewModel.SelectedImage.ImageSource, Converter={StaticResource NullToBooleanConverter}}" Value="True">
-                            <Setter Property="OpacityMask">
-                                <Setter.Value>
-                                    <!-- マスク画像を中央固定配置 -->
-                                    <ImageBrush
-                                        AlignmentX="Left"
-                                        AlignmentY="Top"
-                                        ImageSource="{Binding MaskImageViewModel.SelectedImage.ImageSource}"
-                                        Stretch="None"
-                                        ViewportUnits="Absolute">
-                                        <ImageBrush.Viewport>
-                                            <MultiBinding Converter="{StaticResource RectConverter}">
-                                                <Binding ElementName="Border" Path="ActualWidth" />
-                                                <Binding ElementName="Border" Path="ActualHeight" />
-                                            </MultiBinding>
-                                        </ImageBrush.Viewport>
-                                    </ImageBrush>
-                                </Setter.Value>
-                            </Setter>
-                        </DataTrigger>
-                    </Style.Triggers>
-                </Style>
-            </Border.Style>
 
-            <!-- 2. 中の画像だけをTransformで動かす -->
-            <Image
-                HorizontalAlignment="Center"
-                VerticalAlignment="Center"
-                LostMouseCapture="Image_LostMouseCapture"
-                MouseLeftButtonDown="Image_MouseLeftButtonDown"
-                MouseLeftButtonUp="Image_MouseLeftButtonUp"
-                MouseMove="Image_MouseMove"
-                RenderOptions.BitmapScalingMode="NearestNeighbor"
-                RenderTransformOrigin="0.5,0.5"
-                Source="{Binding BaseImageViewModel.SelectedImage.ImageSource}"
-                Stretch="None">
-                <Image.RenderTransform>
-                    <TransformGroup>
-                        <!-- 拡大縮小 -->
-                        <ScaleTransform ScaleX="{Binding BaseImageViewModel.SelectedImage.Scale}" ScaleY="{Binding BaseImageViewModel.SelectedImage.Scale}" />
-                        <!-- 回転 -->
-                        <RotateTransform Angle="{Binding BaseImageViewModel.SelectedImage.Angle}" />
-                        <!-- 平行移動（ドラッグ移動用） -->
-                        <TranslateTransform X="{Binding BaseImageViewModel.SelectedImage.OffsetX}" Y="{Binding BaseImageViewModel.SelectedImage.OffsetY}" />
-                    </TransformGroup>
-                </Image.RenderTransform>
-            </Image>
+            <Grid>
+                <!-- 1. マスク適用レイヤー（ベース画像） -->
+                <Grid>
+                    <Grid.Style>
+                        <Style TargetType="Grid">
+                            <Setter Property="OpacityMask" Value="{x:Null}" />
+                            <Style.Triggers>
+                                <DataTrigger Binding="{Binding MaskImageViewModel.SelectedImage.ImageSource, Converter={StaticResource NullToBooleanConverter}}" Value="True">
+                                    <Setter Property="OpacityMask">
+                                        <Setter.Value>
+                                            <ImageBrush
+                                                AlignmentX="Center"
+                                                AlignmentY="Center"
+                                                ImageSource="{Binding MaskImageViewModel.SelectedImage.ImageSource}"
+                                                Stretch="None"
+                                                ViewportUnits="Absolute">
+                                                <ImageBrush.Viewport>
+                                                    <MultiBinding Converter="{StaticResource RectConverter}">
+                                                        <Binding ElementName="Border" Path="ActualWidth" />
+                                                        <Binding ElementName="Border" Path="ActualHeight" />
+                                                    </MultiBinding>
+                                                </ImageBrush.Viewport>
+                                            </ImageBrush>
+                                        </Setter.Value>
+                                    </Setter>
+                                </DataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </Grid.Style>
+
+                    <!-- 操作対象のベース画像 -->
+                    <Image
+                        HorizontalAlignment="Center"
+                        VerticalAlignment="Center"
+                        LostMouseCapture="Image_LostMouseCapture"
+                        MouseLeftButtonDown="Image_MouseLeftButtonDown"
+                        MouseLeftButtonUp="Image_MouseLeftButtonUp"
+                        MouseMove="Image_MouseMove"
+                        RenderOptions.BitmapScalingMode="NearestNeighbor"
+                        RenderTransformOrigin="0.5,0.5"
+                        Source="{Binding BaseImageViewModel.SelectedImage.ImageSource}"
+                        Stretch="None">
+                        <Image.RenderTransform>
+                            <TransformGroup>
+                                <ScaleTransform ScaleX="{Binding BaseImageViewModel.SelectedImage.Scale}" ScaleY="{Binding BaseImageViewModel.SelectedImage.Scale}" />
+                                <RotateTransform Angle="{Binding BaseImageViewModel.SelectedImage.Angle}" />
+                                <TranslateTransform X="{Binding BaseImageViewModel.SelectedImage.OffsetX}" Y="{Binding BaseImageViewModel.SelectedImage.OffsetY}" />
+                            </TransformGroup>
+                        </Image.RenderTransform>
+                    </Image>
+                </Grid>
+
+                <!-- 2. マスク画像のサイズに合わせた枠線（オーバーレイ） -->
+                <!-- IsHitTestVisible="False" にして画像ドラッグ操作の邪魔をしないようにする -->
+                <Border
+                    Width="{Binding MaskImageViewModel.SelectedImage.ImageSource.PixelWidth}"
+                    Height="{Binding MaskImageViewModel.SelectedImage.ImageSource.PixelHeight}"
+                    HorizontalAlignment="Center"
+                    VerticalAlignment="Center"
+                    BorderBrush="Black"
+                    BorderThickness="2"
+                    IsHitTestVisible="False">
+                    <Border.Style>
+                        <Style TargetType="Border">
+                            <!-- マスク画像がない時は枠線を非表示にする -->
+                            <Setter Property="Visibility" Value="Visible" />
+                            <Style.Triggers>
+                                <DataTrigger Binding="{Binding MaskImageViewModel.SelectedImage.ImageSource}" Value="{x:Null}">
+                                    <Setter Property="Visibility" Value="Collapsed" />
+                                </DataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </Border.Style>
+                </Border>
+            </Grid>
         </Border>
 
         <!-- ステータスバー -->
