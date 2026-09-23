@@ -24,6 +24,7 @@
             <SolidColorBrush x:Key="ControlBackgroundBrush" Color="#222233" />
             <system:Double x:Key="CommonFontSize">16.0</system:Double>
             <converters:NullToBooleanConverter x:Key="NullToBooleanConverter" />
+            <converters:RectConverter x:Key="RectConverter" />
         </ResourceDictionary>
     </Application.Resources>
 </prism:PrismApplication>

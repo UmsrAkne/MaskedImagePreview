@@ -41,7 +41,7 @@ public partial class MainWindow
         if (sender is UIElement element)
         {
             isDragging = true;
-            lastDragPosition = e.GetPosition(ImageScrollViewer);
+            lastDragPosition = e.GetPosition(Border);
             element.CaptureMouse();
             e.Handled = true;
         }
@@ -51,12 +51,19 @@ public partial class MainWindow
     {
         if (isDragging && sender is UIElement { IsMouseCaptured: true, })
         {
-            var currentPosition = e.GetPosition(ImageScrollViewer);
+            var currentPosition = e.GetPosition(Border);
             var deltaX = currentPosition.X - lastDragPosition.X;
             var deltaY = currentPosition.Y - lastDragPosition.Y;
+            if (DataContext is MainWindowViewModel vm)
+            {
+                var image = vm.BaseImageViewModel.SelectedImage;
+                if (image != null)
+                {
+                    image.OffsetX += deltaX;
+                    image.OffsetY += deltaY;
+                }
 
-            ImageScrollViewer.ScrollToHorizontalOffset(ImageScrollViewer.HorizontalOffset - deltaX);
-            ImageScrollViewer.ScrollToVerticalOffset(ImageScrollViewer.VerticalOffset - deltaY);
+            }
 
             lastDragPosition = currentPosition;
         }
