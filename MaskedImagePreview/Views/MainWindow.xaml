@@ -278,6 +278,11 @@
                 </StackPanel.Resources>
                 <TextBlock Text="{Binding BaseImageViewModel.SelectedImage.FileName}" />
 
+                <TextBlock Text="{Binding BaseImageViewModel.SelectedImage.PixelWidth, StringFormat={}W: {0:N0}}" />
+                <TextBlock Text="{Binding BaseImageViewModel.SelectedImage.PixelHeight, StringFormat={}H: {0:N0}}" />
+
+                <Border Width="0" Margin="10,0" />
+
                 <TextBlock Width="40" Text="{Binding BaseImageViewModel.SelectedImage.OffsetX, StringFormat={}X:{0:N0}}" />
                 <TextBlock Width="40" Text="{Binding BaseImageViewModel.SelectedImage.OffsetY, StringFormat={}Y:{0:N0}}" />
                 <TextBlock Text="{Binding BaseImageViewModel.SelectedImage.Scale, StringFormat={}Scale:{0:N2}}" />
