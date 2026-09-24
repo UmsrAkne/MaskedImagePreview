@@ -239,8 +239,8 @@
                 <!-- 2. マスク画像のサイズに合わせた枠線（オーバーレイ） -->
                 <!-- IsHitTestVisible="False" にして画像ドラッグ操作の邪魔をしないようにする -->
                 <Border
-                    Width="{Binding MaskImageViewModel.SelectedImage.ImageSource.PixelWidth}"
-                    Height="{Binding MaskImageViewModel.SelectedImage.ImageSource.PixelHeight}"
+                    Width="{Binding MaskImageViewModel.SelectedImage.PixelWidth}"
+                    Height="{Binding MaskImageViewModel.SelectedImage.PixelHeight}"
                     HorizontalAlignment="Center"
                     VerticalAlignment="Center"
                     BorderBrush="Black"
