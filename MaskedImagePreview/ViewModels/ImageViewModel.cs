@@ -14,6 +14,8 @@ namespace MaskedImagePreview.ViewModels
         private double angle;
         private double offsetX;
         private double offsetY;
+        private int pixelHeight;
+        private int pixelWidth;
 
         public ImageViewModel(string path, string debugId = "")
         {
@@ -31,6 +33,10 @@ namespace MaskedImagePreview.ViewModels
         public double Scale { get => scale; set => SetProperty(ref scale, value); }
 
         public double Angle { get => angle; set => SetProperty(ref angle, value); }
+
+        public int PixelWidth { get => pixelWidth; set => SetProperty(ref pixelWidth, value); }
+
+        public int PixelHeight { get => pixelHeight; set => SetProperty(ref pixelHeight, value); }
 
         public double OffsetX
         {
@@ -62,6 +68,9 @@ namespace MaskedImagePreview.ViewModels
             bitmap.UriSource = new Uri(path, UriKind.Absolute);
             bitmap.EndInit();
             bitmap.Freeze();
+
+            PixelWidth = bitmap.PixelWidth;
+            PixelHeight = bitmap.PixelHeight;
 
             ImageSource = bitmap;
         }

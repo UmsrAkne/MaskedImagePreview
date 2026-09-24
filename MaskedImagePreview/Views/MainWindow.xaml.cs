@@ -27,11 +27,22 @@ public partial class MainWindow
                 return;
             }
 
-            var zoomFactor = e.Delta > 0 ? 1.1 : 0.9;
-            image.Scale = Math.Max(0.1, image.Scale * zoomFactor);
+            // Shiftキーが押されている場合は「回転」
+            if ((Keyboard.Modifiers & ModifierKeys.Shift) == ModifierKeys.Shift)
+            {
+                var angleFactor = e.Delta > 0 ? 2.0 : -2.0; // 2度ずつ回転
 
-            // var angleFactor = e.Delta > 0 ? 2 : -2;
-            // vm.ImageViewModels.Angle += angleFactor;
+                // 360度でループさせる処理（-360〜360の範囲に収める場合）
+                image.Angle = (image.Angle + angleFactor) % 360.0;
+            }
+
+            // 修飾キーが押されていない場合は「拡大縮小」
+            else
+            {
+                var zoomFactor = e.Delta > 0 ? 0.05 : -0.05;
+                image.Scale = Math.Min(5.0, Math.Max(0.1, image.Scale + zoomFactor));
+            }
+
             e.Handled = true; // スクロール防止
         }
     }
