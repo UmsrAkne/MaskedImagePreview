@@ -285,6 +285,8 @@
 
                 <TextBlock Width="40" Text="{Binding BaseImageViewModel.SelectedImage.OffsetX, StringFormat={}X:{0:N0}}" />
                 <TextBlock Width="40" Text="{Binding BaseImageViewModel.SelectedImage.OffsetY, StringFormat={}Y:{0:N0}}" />
+
+                <TextBlock Text="{Binding BaseImageViewModel.SelectedImage.Angle, StringFormat={}Angle:{0:N2}}" />
                 <TextBlock Text="{Binding BaseImageViewModel.SelectedImage.Scale, StringFormat={}Scale:{0:N2}}" />
             </StackPanel>
         </Border>
