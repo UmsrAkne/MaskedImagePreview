@@ -267,6 +267,21 @@
             Grid.Column="0"
             Grid.ColumnSpan="2"
             Height="30"
-            Background="LightGoldenrodYellow" />
+            Background="LightGoldenrodYellow">
+            <StackPanel HorizontalAlignment="Right" Orientation="Horizontal">
+                <StackPanel.Resources>
+                    <Style TargetType="TextBlock">
+                        <Setter Property="FontSize" Value="14" />
+                        <Setter Property="Margin" Value="10,0" />
+                        <Setter Property="VerticalAlignment" Value="Center" />
+                    </Style>
+                </StackPanel.Resources>
+                <TextBlock Text="{Binding BaseImageViewModel.SelectedImage.FileName}" />
+
+                <TextBlock Width="40" Text="{Binding BaseImageViewModel.SelectedImage.OffsetX, StringFormat={}X:{0:N0}}" />
+                <TextBlock Width="40" Text="{Binding BaseImageViewModel.SelectedImage.OffsetY, StringFormat={}Y:{0:N0}}" />
+                <TextBlock Text="{Binding BaseImageViewModel.SelectedImage.Scale, StringFormat={}Scale:{0:N2}}" />
+            </StackPanel>
+        </Border>
     </Grid>
 </Window>
